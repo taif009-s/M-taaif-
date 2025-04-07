@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn about the prestigious UEFA Champions League trophy, its history, and design.">
+    <title>UEFA Champions League Trophy</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- JavaScript for Scroll to Top Button and Modal -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Scroll to Top Button
+            const scrollToTopButton = document.getElementById('scrollToTopButton');
+            window.onscroll = function() {
+                if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                    scrollToTopButton.classList.remove('hidden');
+                } else {
+                    scrollToTopButton.classList.add('hidden');
+                }
+            };
+
+            scrollToTopButton.onclick = function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            // Modal functionality
+            const openModalButton = document.getElementById('openModal');
+            const closeModalButton = document.getElementById('closeModal');
+            const modal = document.getElementById('modal');
+
+            openModalButton.onclick = function() {
+                modal.classList.remove('hidden');
+            };
+
+            closeModalButton.onclick = function() {
+                modal.classList.add('hidden');
+            };
+        });
+    </script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white py-6">
+        <div class="container mx-auto text-center">
+            <h1 class="text-3xl font-bold uppercase sm:text-4xl md:text-5xl">UEFA Champions League Trophy</h1>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section class="introduction py-16 px-6">
+        <div class="container mx-auto text-center">
+            <h2 class="text-2xl text-blue-600 mb-6 sm:text-3xl">About the Trophy</h2>
+            <p class="text-lg leading-relaxed mb-6 sm:text-xl">The UEFA Champions League trophy is one of the most prestigious awards in world football. It is awarded annually by the Union of European Football Associations (UEFA) to the winner of the Champions League competition. The trophy is recognized globally as a symbol of excellence in club football.</p>
+            <!-- Button to open the modal -->
+            <button id="openModal" class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition duration-300">
+                Learn More
+            </button>
+            <div class="mt-6">
+                <img src="https://c8.alamy.com/comp/E5KDWD/the-champions-league-cup-before-fc-bayern-munich-vs-chelsea-fc-uefa-E5KDWD.jpg" alt="UEFA Champions League Trophy" class="max-w-lg mx-auto mb-6 shadow-lg rounded-lg">
+            </div>
+        </div>
+    </section>
+
+    <!-- History Section -->
+    <section class="history py-16 bg-gray-200 px-6">
+        <div class="container mx-auto text-center">
+            <h2 class="text-2xl text-blue-600 mb-6 sm:text-3xl">History of the Trophy</h2>
+            <p class="text-lg leading-relaxed sm:text-xl">The current UEFA Champions League trophy was first awarded in 1967. It features a large silver cup and two side handles. The trophy weighs approximately 7.5 kilograms (16.5 pounds) and stands 73.5 cm tall. It was designed by the Italian artist and silversmith, Silvio Gazzaniga.</p>
+        </div>
+    </section>
+
+    <!-- Modal (hidden by default) -->
+    <div id="modal" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+            <h2 class="text-2xl font-bold mb-4">UEFA Champions League Trophy</h2>
+            <p class="text-lg mb-4">The UEFA Champions League trophy, designed by Silvio Gazzaniga, is awarded to the winner of the prestigious tournament. The trophy features intricate design elements that represent the high level of excellence in European football.</p>
+            <button id="closeModal" class="bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-700 transition duration-300">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6 fixed bottom-0 w-full">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 UEFA Champions League</p>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopButton" class="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-lg text-2xl hidden hover:bg-blue-700 transition duration-300">
+        ↑
+    </button>
+
+</body>
+</html>
