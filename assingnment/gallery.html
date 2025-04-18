@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gallery - UEFA Champions League</title>
+  <style>
+    /* Base Styles */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      color: #1f2937;
+    }
+
+    /* Header */
+    header {
+      background-color: #2563eb;
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    nav {
+      margin-top: 1rem;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Section */
+    section {
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    section h2 {
+      color: #2563eb;
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+
+    section p {
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+    }
+
+    /* Gallery Grid */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .gallery img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    /* Footer */
+    footer {
+      background-color: #1f2937;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      nav a {
+        display: block;
+        margin: 0.5rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>UEFA Champions League</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About Trophy</a>
+      <a href="players.html">Players</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact Us</a>
+    </nav>
+  </header>
+
+  <section>
+    <h2>Champions League Gallery</h2>
+    <p>Iconic moments featuring the UEFA Champions League trophy.</p>
+
+    <div class="gallery">
+      <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fm.youtube.com%2Fwatch%3Fv%3DE5ebrZIoSuM&psig=AOvVaw3r4u1zaC-uFboN4jJIzA7M&ust=1745003419073000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLDy17zi34wDFQAAAAAdAAAAABAE" alt="Real Madrid Parade">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Champions_League_trophy.jpg" alt="Trophy Closeup">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Bayern_Munich_trophy_celebration.jpg" alt="Bayern Munich Win">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/07/UEFA_Champions_League_2005_final_Liverpool.jpg" alt="Liverpool 2005">
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 UEFA Champions League</p>
+  </footer>
+
+</body>
+</html>
