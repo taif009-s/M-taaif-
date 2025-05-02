@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Players - UEFA Champions League</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
 <body class="bg-gray-100 text-gray-800">
 
-  <!-- Header -->
   <header class="bg-blue-600 text-white py-6">
     <div class="text-center">
       <h1 class="text-3xl font-bold uppercase sm:text-4xl md:text-5xl">UEFA Champions League</h1>
@@ -24,40 +21,181 @@
     </div>
   </header>
 
-  <!-- Players Section -->
+  
   <section class="py-16 px-6 text-center">
     <h2 class="text-3xl text-blue-600 font-semibold mb-4">Legendary Players</h2>
     <p class="text-lg max-w-2xl mx-auto mb-10">
       Here are some iconic players who left a legacy in the UEFA Champions League.
     </p>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-      <!-- Player 1 -->
-      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300">
+   
+    <div class="max-w-2xl mx-auto mb-8 flex flex-col sm:flex-row gap-4">
+      <input id="searchInput" type="text" placeholder="Search players..." class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+      <button onclick="addNewPlayer()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Add Player</button>
+      <button onclick="sortPlayers()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Sort Alphabetically</button>
+      <button onclick="resetPlayers()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Reset List</button>
+    </div>
+
+   
+    <div id="playersGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+     
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300 player-card" data-name="Cristiano Ronaldo">
         <h3 class="text-xl font-bold text-blue-600 mb-2">Cristiano Ronaldo</h3>
         <p class="text-sm text-gray-600">All-time top scorer in the UEFA Champions League. A true icon of the game.</p>
+        <p class="text-sm text-gray-500 hidden additional-info">Clubs: Manchester United, Real Madrid, Juventus</p>
+        <button onclick="toggleDetails(this)" class="text-blue-600 underline text-sm mt-2">Show Details</button>
       </div>
 
-      <!-- Player 2 -->
-      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300">
+    
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300 player-card" data-name="Lionel Messi">
         <h3 class="text-xl font-bold text-blue-600 mb-2">Lionel Messi</h3>
         <p class="text-sm text-gray-600">Magician of Barcelona. Known for his goals, assists, and brilliance on the field.</p>
+        <p class="text-sm text-gray-500 hidden additional-info">Clubs: Barcelona, Paris Saint-Germain</p>
+        <button onclick="toggleDetails(this)" class="text-blue-600 underline text-sm mt-2">Show Details</button>
       </div>
 
-      <!-- Player 3 -->
-      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300">
+   
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300 player-card" data-name="Zinedine Zidane">
         <h3 class="text-xl font-bold text-blue-600 mb-2">Zinedine Zidane</h3>
         <p class="text-sm text-gray-600">Legendary French playmaker, famous for his volley in the 2002 final.</p>
+        <p class="text-sm text-gray-500 hidden additional-info">Clubs: Juventus, Real Madrid</p>
+        <button onclick="toggleDetails(this)" class="text-blue-600 underline text-sm mt-2">Show Details</button>
       </div>
     </div>
+
+   
+    <p id="playerCount" class="mt-8 text-lg"></p>
   </section>
 
-  <!-- Footer -->
   <footer class="bg-gray-800 text-white py-4 text-center">
-    <p>&copy; 2025 UEFA Champions League</p>
+    <p>© 2025 UEFA Champions League</p>
   </footer>
 
-</body>
 
+  <script>
+ 
+    const initialPlayers = [
+      { name: "Cristiano Ronaldo", description: "All-time top scorer in the UEFA Champions League. A true icon of the game.", details: "Clubs: Manchester United, Real Madrid, Juventus" },
+      { name: "Lionel Messi", description: "Magician of Barcelona. Known for his goals, assists, and brilliance on the field.", details: "Clubs: Barcelona, Paris Saint-Germain" },
+      { name: "Zinedine Zidane", description: "Legendary French playmaker, famous for his volley in the 2002 final.", details: "Clubs: Juventus, Real Madrid" }
+    ];
+    let players = [...initialPlayers];
+
+    
+    function addNewPlayer() {
+      const name = prompt("Enter player name:");
+      const description = prompt("Enter player description:");
+      const details = prompt("Enter player details (e.g., clubs):");
+      if (name && description && details) {
+        players.push({ name, description, details });
+        renderPlayers();
+      } else {
+        alert("All fields are required!");
+      }
+    }
+
+    
+    function sortPlayers() {
+      players.sort((a, b) => a.name.localeCompare(b.name));
+      renderPlayers();
+    }
+
+   
+    function filterPlayers() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = initialPlayers.filter(player => player.name.toLowerCase().includes(searchTerm));
+      players = filtered;
+      renderPlayers();
+    }
+
+    function toggleDetails(button) {
+      const card = button.parentElement;
+      const details = card.querySelector('.additional-info');
+      details.classList.toggle('hidden');
+      button.textContent = details.classList.contains('hidden') ? 'Show Details' : 'Hide Details';
+    }
+
+    
+    function highlightRandomPlayer() {
+      const cards = document.querySelectorAll('.player-card');
+      cards.forEach(card => card.classList.remove('bg-yellow-100'));
+      const randomIndex = Math.floor(Math.random() * cards.length);
+      cards[randomIndex].classList.add('bg-yellow-100');
+    }
+
+    function countPlayers() {
+      const count = document.querySelectorAll('.player-card').length;
+      document.getElementById('playerCount').textContent = `Total Players Displayed: ${count}`;
+    }
+
+    function resetPlayers() {
+      players = [...initialPlayers];
+      document.getElementById('searchInput').value = '';
+      renderPlayers();
+    }
+
+    
+    function changeCardColor() {
+      const cards = document.querySelectorAll('.player-card');
+      const colors = ['bg-blue-50', 'bg-green-50', 'bg-red-50'];
+      cards.forEach(card => {
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        card.classList.remove('bg-white', 'bg-blue-50', 'bg-green-50', 'bg-red-50');
+        card.classList.add(randomColor);
+      });
+    }
+
+   
+    function animateCards() {
+      const cards = document.querySelectorAll('.player-card');
+      cards.forEach(card => {
+        card.addEventListener('mouseenter', () => card.classList.add('scale-105'));
+        card.addEventListener('mouseleave', () => card.classList.remove('scale-105'));
+      });
+    }
+
+   
+    function exportPlayers() {
+      const json = JSON.stringify(players, null, 2);
+      console.log("Exported Player Data:", json);
+      alert("Player data exported to console!");
+      return json;
+    }
+
+   
+    function renderPlayers() {
+      const grid = document.getElementById('playersGrid');
+      grid.innerHTML = '';
+      players.forEach(player => {
+        const card = document.createElement('div');
+        card.className = 'bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300 player-card';
+        card.dataset.name = player.name;
+        card.innerHTML = `
+          <h3 class="text-xl font-bold text-blue-600 mb-2">${player.name}</h3>
+          <p class="text-sm text-gray-600">${player.description}</p>
+          <p class="text-sm text-gray-500 hidden additional-info">${player.details}</p>
+          <button onclick="toggleDetails(this)" class="text-blue-600 underline text-sm mt-2">Show Details</button>
+        `;
+        grid.appendChild(card);
+      });
+      countPlayers();
+      animateCards();
+    }
+
+  
+    document.getElementById('searchInput').addEventListener('input', filterPlayers);
+    window.addEventListener('load', () => {
+      renderPlayers();
+      highlightRandomPlayer();
+    });
+    
+    const controlsDiv = document.querySelector('.max-w-2xl.mx-auto.mb-8');
+    controlsDiv.innerHTML += `
+      <button onclick="highlightRandomPlayer()" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">Highlight Random</button>
+      <button onclick="changeCardColor()" class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700">Change Colors</button>
+      <button onclick="exportPlayers()" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700">Export Data</button>
+    `;
+  </script>
+</body>
 </html>
 

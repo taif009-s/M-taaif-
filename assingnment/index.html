@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home - UEFA Champions League</title>
+    <title>About Trophy - UEFA Champions League</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
-<body class="bg-gray-100 text-gray-800">
-
-    <!-- Header Section -->
-    <header class="bg-blue-600 text-white py-6">
+<body class="bg-gray-100 text-gray-800 transition-colors duration-300">
+   
+    <header id="header" class="bg-blue-600 text-white py-6 transition-colors duration-300">
         <div class="container mx-auto text-center">
             <h1 class="text-3xl font-bold uppercase sm:text-4xl md:text-5xl">UEFA Champions League</h1>
             <nav class="mt-4">
@@ -24,14 +21,137 @@
         </div>
     </header>
 
-    <!-- Introduction Section -->
-    <section class="py-16 px-6">
+   
+    <section id="intro-section" class="py-16 px-6">
         <div class="container mx-auto text-center">
             <h2 class="text-2xl text-blue-600 mb-6 sm:text-3xl">About the Trophy</h2>
             <p class="text-lg leading-relaxed mb-6 sm:text-xl">
                 The UEFA Champions League trophy is one of the most prestigious awards in world football. It is awarded annually by the Union of European Football Associations (UEFA) to the winner of the Champions League competition.
             </p>
-            <button id="openModal" class="bg-blue-600 text-white px-6 py-
+            <img id="trophy-img" src="https://via.placeholder.com/200" alt="UEFA Trophy" class="mx-auto mb-6 transform transition-transform duration-300" />
+            <button id="openModal" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+                Learn More
+            </button>
+            <button onclick="displayRandomFact()" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 ml-4">
+                Random Fact
+            </button>
+            <button onclick="toggleDarkMode()" class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 ml-4">
+                Toggle Dark Mode
+            </button>
+            <button onclick="scrollToIntro()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 ml-4">
+                Scroll to Intro
+            </button>
+            <div id="fact-display" class="mt-4 text-lg"></div>
+            <div id="winners-display" class="mt-4 text-lg"></div>
+        </div>
+    </section>
+
+   
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg max-w-md">
+            <h3 class="text-xl font-bold mb-4">UEFA Champions League Trophy</h3>
+            <p class="mb-4">
+                The trophy, nicknamed "Big Ears" due to its distinctive handles, is 74 cm tall and weighs 7.5 kg. It is crafted from silver and awarded to the winning team.
+            </p>
+            <button id="closeModal" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Close
+            </button>
+        </div>
+    </div>
+
+  
+    <script>
+   
+        function openModal() {
+            document.getElementById('modal').classList.remove('hidden');
+        }
+
+       
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+        }
+
+  
+        function toggleTrophyAnimation() {
+            const img = document.getElementById('trophy-img');
+            img.classList.toggle('scale-110');
+        }
+
+       
+        function displayRandomFact() {
+            const facts = [
+                "The trophy is nicknamed 'Big Ears' due to its large handles.",
+                "It was designed by Jürg Stadelmann in 1956.",
+                "The current trophy design has been used since 2006.",
+                "The trophy is made of sterling silver.",
+                "Teams that win it five times get to keep a replica."
+            ];
+            const randomFact = facts[Math.floor(Math.random() * facts.length)];
+            document.getElementById('fact-display').innerText = randomFact;
+        }
+
+        
+        function displayRecentWinners() {
+            const winners = [
+                { year: 2024, team: "Real Madrid" },
+                { year: 2023, team: "Manchester City" },
+                { year: 2022, team: "Real Madrid" }
+            ];
+            const winnersList = winners.map(w => `${w.year}: ${w.team}`).join('<br>');
+            document.getElementById('winners-display').innerHTML = `<strong>Recent Winners:</strong><br>${winnersList}`;
+        }
+
+       
+        function validateContactForm(email, message) {
+            if (!email.includes('@') || email.length < 5) {
+                return "Invalid email address.";
+            }
+            if (message.length < 10) {
+                return "Message must be at least 10 characters.";
+            }
+            return "Form is valid!";
+        }
+
+       
+        function changeHeaderColor() {
+            const colors = ['bg-blue-600', 'bg-red-600', 'bg-green-600'];
+            const header = document.getElementById('header');
+            const currentColor = header.classList[1];
+            let newColor = colors[Math.floor(Math.random() * colors.length)];
+            while (newColor === currentColor) {
+                newColor = colors[Math.floor(Math.random() * colors.length)];
+            }
+            header.classList.replace(currentColor, newColor);
+        }
+
+      
+        function countTrophyAwards() {
+            const inceptionYear = 1955;
+            const currentYear = new Date().getFullYear();
+            return currentYear - inceptionYear;
+        }
+
+      
+        function toggleDarkMode() {
+            document.body.classList.toggle('bg-gray-900');
+            document.body.classList.toggle('text-white');
+            document.body.classList.toggle('bg-gray-100');
+            document.body.classList.toggle('text-gray-800');
+        }
+
+        
+        function scrollToIntro() {
+            document.getElementById('intro-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        
+        document.getElementById('openModal').addEventListener('click', openModal);
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        document.getElementById('trophy-img').addEventListener('click', toggleTrophyAnimation);
+        window.addEventListener('load', displayRecentWinners);
+    </script>
+</body>
+</html>
 
 
 

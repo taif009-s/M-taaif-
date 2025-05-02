@@ -8,9 +8,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-100 text-gray-800 transition-colors duration-300">
 
-  <!-- Header -->
+ 
   <header class="bg-blue-600 text-white py-6">
     <div class="text-center">
       <h1 class="text-3xl font-bold uppercase sm:text-4xl md:text-5xl">UEFA Champions League</h1>
@@ -25,53 +25,159 @@
     </div>
   </header>
 
-  <!-- Contact Section -->
+
   <section class="py-16 px-6">
     <div class="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-md">
       <h2 class="text-3xl text-blue-600 font-semibold text-center mb-6">Contact Us</h2>
       <p class="text-lg text-center mb-8">Have questions or feedback? We'd love to hear from you.</p>
+      
+     
+      <div id="message-container" class="hidden mb-6 p-4 rounded-md"></div>
 
-      <form action="#" method="post" class="space-y-6">
-        <!-- Name Field -->
+      <form id="contact-form" class="space-y-6">
+   
         <div>
           <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
           <input type="text" id="name" name="name" placeholder="John Doe" required
             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
 
-        <!-- Email Field -->
+    
         <div>
           <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Your Email</label>
           <input type="email" id="email" name="email" placeholder="you@example.com" required
             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
 
-        <!-- Message Field -->
+        
         <div>
           <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Your Message</label>
           <textarea id="message" name="message" rows="5" placeholder="Type your message here..." required
             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
         </div>
 
-        <!-- Submit Button -->
+      
         <div>
-          <button type="submit"
+          <button type="submit" id="submit-btn"
             class="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition duration-300">
             Send Message
           </button>
         </div>
       </form>
+
+     
+      <div class="text-center mt-6">
+        <button id="dark-mode-toggle" class="text-blue-600 hover:underline">
+          Toggle Dark Mode
+        </button>
+      </div>
     </div>
   </section>
 
-  <!-- Footer -->
+ 
   <footer class="bg-gray-800 text-white py-4 text-center">
-    <p>&copy; 2025 UEFA Champions League</p>
+    <p>© 2025 UEFA Champions League</p>
   </footer>
 
-</body>
+  <script>
+  
+    function validateForm(name, email, message) {
+      return validateName(name) && validateEmail(email) && validateMessage(message);
+    }
 
-</html>
+   
+    function validateName(name) {
+      const nameRegex = /^[A-Za-z\s]{2,50}$/;
+      return nameRegex.test(name);
+    }
+
+   
+    function validateEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+   
+    function validateMessage(message) {
+      return message.trim().length >= 10 && message.trim().length <= 500;
+    }
+
+    
+    function clearForm() {
+      document.getElementById('contact-form').reset();
+    }
+
+  
+    function showSuccessMessage(message) {
+      const container = document.getElementById('message-container');
+      container.className = 'mb-6 p-4 rounded-md bg-green-100 text-green-700';
+      container.textContent = message;
+      container.classList.remove('hidden');
+      setTimeout(() => container.classList.add('hidden'), 5000);
+    }
+
+ 
+    function showErrorMessage(message) {
+      const container = document.getElementById('message-container');
+      container.className = 'mb-6 p-4 rounded-md bg-red-100 text-red-700';
+      container.textContent = message;
+      container.classList.remove('hidden');
+      setTimeout(() => container.classList.add('hidden'), 5000);
+    }
+
+  
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      document.body.classList.toggle('bg-gray-100', !isDark);
+      document.body.classList.toggle('bg-gray-900', isDark);
+      document.body.classList.toggle('text-gray-800', !isDark);
+      document.body.classList.toggle('text-gray-200', isDark);
+      document.querySelector('footer').classList.toggle('bg-gray-800', !isDark);
+      document.querySelector('footer').classList.toggle('bg-gray-700', isDark);
+    }
+
+   
+    function getCurrentDate() {
+      return new Date().toISOString().split('T')[0];
+    }
+
+    function simulateFormSubmission(data) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          console.log('Form submitted:', { ...data, date: getCurrentDate() });
+          resolve(true);
+        }, 1000);
+      });
+    }
+
+    
+    document.getElementById('contact-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+      
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+
+      if (validateForm(name, email, message)) {
+        try {
+          await simulateFormSubmission({ name, email, message });
+          showSuccessMessage('Message sent successfully!');
+          clearForm();
+        } catch (error) {
+          showErrorMessage('Failed to send message. Please try again.');
+        }
+      } else {
+        showErrorMessage('Please fill out all fields correctly.');
+      }
+      
+      submitBtn.disabled = false;
+    });
+
+    document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
+  </script>
 
 
 

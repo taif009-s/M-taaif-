@@ -8,9 +8,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-100 text-gray-800 transition-colors duration-300">
 
-  <!-- Header -->
+
   <header class="bg-blue-600 text-white py-6">
     <div class="text-center">
       <h1 class="text-3xl font-bold uppercase sm:text-4xl md:text-5xl">UEFA Champions League</h1>
@@ -24,52 +24,200 @@
     </div>
   </header>
 
-  <!-- Main Content -->
+ 
   <section class="py-16 px-6 text-center">
     <h2 class="text-3xl text-blue-600 font-semibold mb-4">Top Teams in UEFA Champions League</h2>
     <p class="text-lg max-w-2xl mx-auto mb-10">
       Explore the best teams who have dominated the UEFA Champions League over the years.
     </p>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-      <!-- Team 1 -->
-      <div class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition duration-300">
+    
+    <div class="max-w-6xl mx-auto mb-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <input id="searchInput" type="text" placeholder="Search teams..." class="p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600">
+      <button onclick="sortTeams()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Sort Alphabetically</button>
+      <button onclick="toggleDarkMode()" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700">Toggle Dark Mode</button>
+      <button onclick="toggleGridLayout()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Toggle Layout</button>
+    </div>
+
+    
+    <div id="teamGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+   
+      <div class="team-card bg-white p-6 rounded-lg shadow hover:shadow-xl transition duration-300" data-name="Real Madrid">
         <h3 class="text-xl font-semibold text-blue-600 mb-2">Real Madrid</h3>
         <p class="text-sm text-gray-600">
           Record-holding UEFA Champions League champions with unmatched history and legacy.
         </p>
+        <p class="text-sm text-gray-500 mt-2 hidden team-details">Titles: 14</p>
       </div>
 
-      <!-- Team 2 -->
-      <div class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition duration-300">
+ 
+      <div class="team-card bg-white p-6 rounded-lg shadow hover:shadow-xl transition duration-300" data-name="Bayern Munich">
         <h3 class="text-xl font-semibold text-blue-600 mb-2">Bayern Munich</h3>
         <p class="text-sm text-gray-600">
           German powerhouse, known for dominance in both Bundesliga and Champions League.
         </p>
+        <p class="text-sm text-gray-500 mt-2 hidden team-details">Titles: 6</p>
       </div>
 
       <!-- Team 3 -->
-      <div class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition duration-300">
+      <div class="team-card bg-white p-6 rounded-lg shadow hover:shadow-xl transition duration-300" data-name="Liverpool">
         <h3 class="text-xl font-semibold text-blue-600 mb-2">Liverpool</h3>
         <p class="text-sm text-gray-600">
           Rich history in European football, with multiple Champions League titles.
         </p>
+        <p class="text-sm text-gray-500 mt-2 hidden team-details">Titles: 6</p>
       </div>
 
-      <!-- Team 4 -->
-      <div class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition duration-300">
+      
+      <div class="team-card bg-white p-6 rounded-lg shadow hover:shadow-xl transition duration-300" data-name="FC Barcelona">
         <h3 class="text-xl font-semibold text-blue-600 mb-2">FC Barcelona</h3>
         <p class="text-sm text-gray-600">
           Home to many football legends, known for beautiful play and European dominance.
         </p>
+        <p class="text-sm text-gray-500 mt-2 hidden team-details">Titles: 5</p>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
+  
   <footer class="bg-gray-800 text-white py-4 text-center">
-    <p>&copy; 2025 UEFA Champions League</p>
+    <p>© 2025 UEFA Champions League</p>
   </footer>
+
+  <script>
+  
+    let teams = [
+      { name: "Real Madrid", description: "Record-holding UEFA Champions League champions with unmatched history and legacy.", titles: 14 },
+      { name: "Bayern Munich", description: "German powerhouse, known for dominance in both Bundesliga and Champions League.", titles: 6 },
+      { name: "Liverpool", description: "Rich history in European football, with multiple Champions League titles.", titles: 6 },
+      { name: "FC Barcelona", description: "Home to many football legends, known for beautiful play and European dominance.", titles: 5 }
+    ];
+
+   
+    function filterTeams() {
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+      const teamGrid = document.getElementById('teamGrid');
+      const teamCards = teamGrid.getElementsByClassName('team-card');
+
+      Array.from(teamCards).forEach(card => {
+        const teamName = card.dataset.name.toLowerCase();
+        card.style.display = teamName.includes(searchInput) ? '' : 'none';
+      });
+    }
+
+   
+    function sortTeams() {
+      teams.sort((a, b) => a.name.localeCompare(b.name));
+      renderTeams();
+    }
+
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+      if (document.body.classList.contains('dark')) {
+        document.body.classList.remove('bg-gray-100', 'text-gray-800');
+        document.body.classList.add('bg-gray-900', 'text-white');
+        document.querySelectorAll('.team-card').forEach(card => {
+          card.classList.remove('bg-white');
+          card.classList.add('bg-gray-800');
+        });
+      } else {
+        document.body.classList.remove('bg-gray-900', 'text-white');
+        document.body.classList.add('bg-gray-100', 'text-gray-800');
+        document.querySelectorAll('.team-card').forEach(card => {
+          card.classList.remove('bg-gray-800');
+          card.classList.add('bg-white');
+        });
+      }
+    }
+
+   
+    function addTeam() {
+      const name = prompt("Enter team name:");
+      const description = prompt("Enter team description:");
+      const titles = parseInt(prompt("Enter number of titles:"));
+      if (name && description && !isNaN(titles)) {
+        teams.push({ name, description, titles });
+        renderTeams();
+      }
+    }
+
+    
+    function removeTeam() {
+      const name = prompt("Enter team name to remove:");
+      teams = teams.filter(team => team.name.toLowerCase() !== name.toLowerCase());
+      renderTeams();
+    }
+
+    
+    function highlightTeam(event) {
+      const teamCard = event.currentTarget;
+      document.querySelectorAll('.team-card').forEach(card => card.classList.remove('ring-2', 'ring-blue-600'));
+      teamCard.classList.add('ring-2', 'ring-blue-600');
+    }
+
+   
+    function resetTeams() {
+      teams = [
+        { name: "Real Madrid", description: "Record-holding UEFA Champions League champions with unmatched history and legacy.", titles: 14 },
+        { name: "Bayern Munich", description: "German powerhouse, known for dominance in both Bundesliga and Champions League.", titles: 6 },
+        { name: "Liverpool", description: "Rich history in European football, with multiple Champions League titles.", titles: 6 },
+        { name: "FC Barcelona", description: "Home to many football legends, known for beautiful play and European dominance.", titles: 5 }
+      ];
+      renderTeams();
+    }
+
+   
+    function showTeamDetails(event) {
+      const teamCard = event.currentTarget;
+      const details = teamCard.querySelector('.team-details');
+      details.classList.toggle('hidden');
+    }
+
+    function updateTeamDescription() {
+      const name = prompt("Enter team name to update:");
+      const newDescription = prompt("Enter new description:");
+      const team = teams.find(t => t.name.toLowerCase() === name.toLowerCase());
+      if (team && newDescription) {
+        team.description = newDescription;
+        renderTeams();
+      }
+    }
+
+ 
+    function toggleGridLayout() {
+      const teamGrid = document.getElementById('teamGrid');
+      if (teamGrid.classList.contains('grid')) {
+        teamGrid.classList.remove('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-4', 'gap-8');
+        teamGrid.classList.add('flex', 'flex-col', 'gap-4');
+      } else {
+        teamGrid.classList.remove('flex', 'flex-col', 'gap-4');
+        teamGrid.classList.add('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-4', 'gap-8');
+      }
+    }
+
+    
+    function renderTeams() {
+      const teamGrid = document.getElementById('teamGrid');
+      teamGrid.innerHTML = '';
+      teams.forEach(team => {
+        const teamCard = document.createElement('div');
+        teamCard.className = 'team-card bg-white p-6 rounded-lg shadow hover:shadow-xl transition duration-300';
+        teamCard.dataset.name = team.name;
+        teamCard.innerHTML = `
+          <h3 class="text-xl font-semibold text-blue-600 mb-2">${team.name}</h3>
+          <p class="text-sm text-gray-600">${team.description}</p>
+          <p class="text-sm text-gray-500 mt-2 hidden team-details">Titles: ${team.titles}</p>
+        `;
+        teamCard.addEventListener('click', highlightTeam);
+        teamCard.addEventListener('dblclick', showTeamDetails);
+        teamGrid.appendChild(teamCard);
+      });
+    }
+
+   
+    document.getElementById('searchInput').addEventListener('input', filterTeams);
+  </script>
 
 </body>
 

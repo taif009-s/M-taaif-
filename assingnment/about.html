@@ -8,23 +8,22 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-100 text-gray-800 transition-colors duration-300">
 
-  <!-- Header -->
   <header class="bg-blue-600 text-white py-6">
     <div class="text-center">
       <h1 class="text-3xl font-bold uppercase sm:text-4xl md:text-5xl">UEFA Champions League</h1>
-      <nav class="mt-4">
-        <a href="index.html" class="mx-2 hover:underline">Home</a>
-        <a href="about.html" class="mx-2 hover:underline">About Trophy</a>
-        <a href="players.html" class="mx-2 hover:underline">Players</a>
-        <a href="teams.html" class="mx-2 hover:underline">Teams</a>
-        <a href="contact.html" class="mx-2 hover:underline">Contact Us</a>
+      <nav class="mt-4" role="navigation">
+        <a href="index.html" class="mx-2 hover:underline nav-link">Home</a>
+        <a href="about.html" class="mx-2 hover:underline nav-link active">About Trophy</a>
+        <a href="players.html" class="mx-2 hover:underline nav-link">Players</a>
+        <a href="teams.html" class="mx-2 hover:underline nav-link">Teams</a>
+        <a href="contact.html" class="mx-2 hover:underline nav-link" id="contact-link">Contact Us</a>
       </nav>
     </div>
   </header>
 
-  <!-- About Trophy Section -->
+ 
   <section class="py-16 px-6 text-center">
     <h2 class="text-3xl text-blue-600 font-semibold mb-4">About the UEFA Champions League Trophy</h2>
     <p class="text-lg max-w-2xl mx-auto mb-10">
@@ -32,25 +31,170 @@
       awarded annually to the winning club of Europe’s premier competition. Its elegant design and iconic shape make it
       a true symbol of football excellence.
     </p>
-    <img src="https://c8.alamy.com/comp/E5KDWD/the-champions-league-cup-before-fc-bayern-munich-vs-chelsea-fc-uefa-E5KDWD.jpg"
-      alt="Champions League Trophy" class="w-full max-w-lg mx-auto rounded-lg shadow-lg">
+    <div class="relative">
+      <img id="trophy-image" src="https://c8.alamy.com/comp/E5KDWD/the-champions-league-cup-before-fc-bayern-munich-vs-chelsea-fc-uefa-E5KDWD.jpg"
+        alt="UEFA Champions League Trophy" class="w-full max-w-lg mx-auto rounded-lg shadow-lg transition-transform duration-300">
+      <p id="image-caption" class="text-sm text-gray-600 mt-2 hidden">The iconic UEFA Champions League Trophy</p>
+    </div>
+    <button id="facts-button" class="mt-6 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Show Random Trophy Fact</button>
+    <p id="fact-display" class="text-lg text-gray-800 mt-4 hidden"></p>
   </section>
 
-  <section class="bg-white py-16 px-6 text-center">
+  <section id="trophy-details" class="bg-white py-16 px-6 text-center">
     <h3 class="text-2xl text-blue-600 font-semibold mb-4">Trophy Details</h3>
     <p class="text-lg max-w-3xl mx-auto mb-6">
-      The current version of the trophy was introduced in 1967, designed by Jörg Stadelmann. It stands 73.5 cm tall,
-      weighs 7.5 kg, and is made of sterling silver. Clubs that win the competition five times, or three in a row, earn
+      The current version of the trophy was introduced in 1967, designed by Jörg Stadelmann. It stands <span id="trophy-height">73.5</span> cm tall,
+      weighs <span id="trophy-weight">7.5</span> kg, and is made of sterling silver. Clubs that win the competition five times, or three in a row, earn
       the right to keep the original trophy.
     </p>
+    <button id="toggle-details" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Hide Details</button>
   </section>
 
-  <!-- Footer -->
+  
   <footer class="bg-gray-800 text-white py-4 text-center">
-    <p>&copy; 2025 UEFA Champions League</p>
+    <p>© <span id="copyright-year">2025</span> UEFA Champions League</p>
+    <button id="theme-toggle" class="mt-2 text-sm underline">Toggle Dark Mode</button>
   </footer>
+
+  <script>
+   
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+      document.body.classList.toggle('bg-gray-900');
+      document.body.classList.toggle('text-white');
+      document.body.classList.toggle('bg-gray-100');
+      document.body.classList.toggle('text-gray-800');
+      document.querySelector('section.bg-white').classList.toggle('bg-gray-800');
+    }
+
+ 
+    function zoomImage() {
+      const image = document.getElementById('trophy-image');
+      const currentScale = image.style.transform.includes('scale') ? parseFloat(image.style.transform.match(/scale\(([^)]+)\)/)[1]) : 1;
+      image.style.transform = currentScale === 1 ? 'scale(1.5)' : 'scale(1)';
+    }
+
+   
+    function showTrophyFact() {
+      const facts = [
+        'The trophy is nicknamed "Big Ears" due to its distinctive handles.',
+        'Real Madrid has won the most Champions League titles.',
+        'The trophy is handed over in a ceremony after the final match.',
+        'The original trophy is kept by UEFA; winners receive a replica.',
+        'The trophy’s design has remained largely unchanged since 1967.'
+      ];
+      const factDisplay = document.getElementById('fact-display');
+      factDisplay.textContent = facts[Math.floor(Math.random() * facts.length)];
+      factDisplay.classList.remove('hidden');
+    }
+
+    
+    function updateCopyrightYear() {
+      const yearSpan = document.getElementById('copyright-year');
+      yearSpan.textContent = new Date().getFullYear();
+    }
+
+
+    function enableSmoothScroll() {
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = link.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId) || document.body;
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+    }
+
+    function highlightActiveLink() {
+      const navLinks = document.querySelectorAll('.nav-link');
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === window.location.pathname.split('/').pop()) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+
+ 
+    function toggleTrophyDetails() {
+      const detailsSection = document.getElementById('trophy-details');
+      const toggleButton = document.getElementById('toggle-details');
+      const isHidden = detailsSection.classList.toggle('hidden');
+      toggleButton.textContent = isHidden ? 'Show Details' : 'Hide Details';
+      detailsSection.style.transition = 'opacity 0.3s';
+      detailsSection.style.opacity = isHidden ? '0' : '1';
+    }
+
+
+    function animateStats() {
+      const heightSpan = document.getElementById('trophy-height');
+      const weightSpan = document.getElementById('trophy-weight');
+      let height = 0, weight = 0;
+      const targetHeight = 73.5, targetWeight = 7.5;
+      const interval = setInterval(() => {
+        if (height < targetHeight) {
+          height += 0.5;
+          heightSpan.textContent = height.toFixed(1);
+        }
+        if (weight < targetWeight) {
+          weight += 0.1;
+          weightSpan.textContent = weight.toFixed(1);
+        }
+        if (height >= targetHeight && weight >= targetWeight) {
+          clearInterval(interval);
+          heightSpan.textContent = targetHeight;
+          weightSpan.textContent = targetWeight;
+        }
+      }, 50);
+    }
+
+
+    function toggleImageCaption() {
+      const caption = document.getElementById('image-caption');
+      caption.classList.toggle('hidden');
+    }
+
+
+    function contactAlert() {
+      alert('Contact form coming soon! Please check back later.');
+    }
+
+  
+    document.getElementById('theme-toggle').addEventListener('click', toggleDarkMode);
+    document.getElementById('trophy-image').addEventListener('click', zoomImage);
+    document.getElementById('facts-button').addEventListener('click', showTrophyFact);
+    document.getElementById('toggle-details').addEventListener('click', toggleTrophyDetails);
+    document.getElementById('contact-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      contactAlert();
+    });
+    document.getElementById('trophy-image').addEventListener('dblclick', toggleImageCaption);
+
+  
+    updateCopyrightYear();
+    enableSmoothScroll();
+    highlightActiveLink();
+    window.addEventListener('load', animateStats);
+
+
+    const style = document.createElement('style');
+    style.textContent = `
+      .dark .nav-link.active {
+        color: #60a5fa;
+      }
+      .dark .nav-link:hover {
+        color: #93c5fd;
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
 
 </body>
 
 </html>
+
+
+
 
